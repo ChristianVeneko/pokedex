@@ -1,0 +1,74 @@
+body {
+    background: rgb(86, 92, 97);
+    background: linear-gradient(
+      90deg,
+      rgba(85, 144, 189, 1) 0%,
+      rgba(108, 183, 240, 1) 54%,
+      rgba(182, 216, 242, 1) 82%
+    );
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Oswald", sans-serif;
+  }
+
+  @font-face {
+    font-family: "pokemon";
+    src: url("./fonts/Pokemon\ Solid.ttf");
+    }
+  
+  h1 {
+    font-family: pokemon;
+    background: -webkit-linear-gradient(rgb(42, 155, 142), rgb(239, 239, 21));
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+  }
+
+  .title{
+    text-align: center;
+  }
+  
+  .pokemon-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+    margin-top: 20px;
+  }
+  
+  .pokemon-block,
+  .pokemon-block-back {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
+  }
+  
+  .img-container {
+    background-image: url("./blob.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+  }
+  
+  .pokemon-block p {
+    font-size: 30px;
+    margin: 5px;
+  }
+  
+  .name {
+    text-align: center;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .card-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
