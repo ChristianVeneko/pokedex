@@ -1,7 +1,7 @@
 const pokemonContainer = document.querySelector('.pokemon-container')
 let pokemons 
 
-
+//funcion inutil pero la dejo pk es la primera que se hizo
 function fetchPokemons(limit){
     let pkms
     fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`)
@@ -12,26 +12,29 @@ function fetchPokemons(limit){
         console.log(pkms);
         console.log(pkms.results[1]);
         console.log(pkms.results.length);
-        //fetchPokemon1(pkms.results.length);
+        fetchPokemon(pkms.results.length);
     })
 }
 
 fetchPokemons(151)
 
-function fetchPokemon1(num){
-    let pkm
-    let url
-    for(let i = 1; i <= num; i++){
-        url = `https://pokeapi.co/api/v2/pokemon/${i}/`
-        fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-        data = JSON.stringify(data);
-        pkm = JSON.parse(data);
-        console.log(pkm.id)
-        createPokemon(pkm);
-    })
+const fetchPokemon = (num) => {
+    const promises = [];
+    for (let i = 1; i <= num; i++) {
+        const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+        promises.push(fetch(url).then((res) => res.json()));
     }
+    Promise.all(promises).then((results) => {
+        const pokemon = results.map((result) => ({
+            name: result.name,
+            image: result.sprites.front_default,
+            type: result.types.map((type) => type.type.name).join(', '),
+            id: result.id
+        })).sort((a, b) => a.id > b.id ? 1 : -1);
+        for(let i = 0; i <= num; i ++){
+            createPokemon(pokemon[i])
+        }
+    });
 }
 
 function createPokemon(pokemon){
@@ -42,7 +45,7 @@ function createPokemon(pokemon){
     spriteContainer.classList.add('img-container');
 
     const sprite = document.createElement('img');
-    sprite.src = pokemon.sprites.front_default
+    sprite.src = pokemon.image
 
     spriteContainer.appendChild(sprite);
 
@@ -55,7 +58,7 @@ function createPokemon(pokemon){
 
     const type = document.createElement('p');
     type.classList.add('type');
-    type.textContent = `Type: ${pokemon.types.map(type => type.type.name)}`;
+    type.textContent = pokemon.type;
 
     card.appendChild(spriteContainer);
     card.appendChild(number);
