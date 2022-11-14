@@ -1,20 +1,36 @@
 const pokemonContainer = document.querySelector('.pokemon-container')
+let pokemons 
 
-function fetchPokemon(id){
-    let pkm
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`).then((resp) => {
-        if(resp.ok){
-            return resp.json();
-        }
-    }).then((json) => {
-        createPokemon(json)
+
+function fetchPokemons(limit){
+    let pkms
+    fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`)
+    .then((res) => res.json())
+    .then((data) => {
+        data = JSON.stringify(data);
+        pkms = JSON.parse(data);
+        console.log(pkms);
+        console.log(pkms.results[1]);
+        console.log(pkms.results.length);
+        //fetchPokemon1(pkms.results.length);
     })
 }
 
+fetchPokemons(151)
 
-function fetchPokemons(num){
+function fetchPokemon1(num){
+    let pkm
+    let url
     for(let i = 1; i <= num; i++){
-        fetchPokemon(i)
+        url = `https://pokeapi.co/api/v2/pokemon/${i}/`
+        fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+        data = JSON.stringify(data);
+        pkm = JSON.parse(data);
+        console.log(pkm.id)
+        createPokemon(pkm);
+    })
     }
 }
 
@@ -49,5 +65,3 @@ function createPokemon(pokemon){
     pokemonContainer.appendChild(card);
 
 }
-
-fetchPokemons(151)
